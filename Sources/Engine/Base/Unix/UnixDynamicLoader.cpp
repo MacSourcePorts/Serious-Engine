@@ -93,18 +93,21 @@ CUnixDynamicLoader::CUnixDynamicLoader(const char *libname)
 
         // Always try to dlopen from inside the game dirs before trying
         //  system libraries...
-        if (fnm.FileDir() == "") {
-            char buf[MAX_PATH];
-            _pFileSystem->GetExecutablePath(buf, sizeof (buf));
-            CTFileName fnmDir = CTString(buf);
-            fnmDir = fnmDir.FileDir() + fnm;
-            DoOpen(fnmDir);
-            if (module != NULL) {
-                return;
-            }
+        //       if (fnm.FileDir() == "") {
+        char buf[MAX_PATH];
+        _pFileSystem->GetExecutablePath(buf, sizeof (buf));
+        CTFileName fnmDir = CTString(buf);
+        fnmDir = fnmDir.FileDir() + fnm;
+        printf("CUnixDynamicLoader loading (1): %s\n", fnmDir.str_String);
+        DoOpen(fnmDir);
+        if (module != NULL) {
+            return;
         }
-
-        DoOpen(fnm);
+        //       }
+        
+        // DoOpen(fnm);
+        printf("CUnixDynamicLoader loading (2): %s\n", (fnm.FileName()+fnm.FileExt()).str_String);
+        if (module == NULL) DoOpen(fnm.FileName()+fnm.FileExt());
     }
 }
 

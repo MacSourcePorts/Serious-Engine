@@ -268,29 +268,31 @@ static void AnalyzeApplicationPath(void)
 
   char strTmpPath[MAX_PATH] = "";
 
-  _pFileSystem->GetExecutablePath(strExePath, sizeof (strExePath)-1);
+  // _pFileSystem->GetExecutablePath(strExePath, sizeof (strExePath)-1);
+  _pFileSystem->GetUserDirectory(strExePath, sizeof (strExePath)-1);
   strncpy(strTmpPath, strExePath, sizeof(strTmpPath)-1);
   strDirPath[sizeof(strTmpPath)-1] = 0;
-  // remove name from application path
-  StrRev(strTmpPath);  
-  // find last backslash
-  char *pstr = strstr( strTmpPath, dirsep);
-  if( pstr==NULL) {
-    // not found - path is just "\"
-    strcpy( strTmpPath, dirsep);
-    pstr = strTmpPath;
-  } 
-  // remove 'debug' from app path if needed
-  if( strnicmp( pstr, (CTString(dirsep)+"gubed"), 5+seplen)==0) pstr += (5 + seplen);
-  if( strncmp(pstr, dirsep, seplen) == 0) pstr += seplen;
-  char *pstrFin = strstr( pstr, dirsep);
-  if( pstrFin==NULL) {
-    strcpy( pstr, dirsep);
-    pstrFin = pstr;
-  }
-  // copy that to the path
-  StrRev(pstrFin);
-  strncpy( strDirPath, pstrFin, sizeof(strDirPath)-1);
+  // // remove name from application path
+  // StrRev(strTmpPath);  
+  // // find last backslash
+  // char *pstr = strstr( strTmpPath, dirsep);
+  // if( pstr==NULL) {
+  //   // not found - path is just "\"
+  //   strcpy( strTmpPath, dirsep);
+  //   pstr = strTmpPath;
+  // } 
+  // // remove 'debug' from app path if needed
+  // if( strnicmp( pstr, (CTString(dirsep)+"gubed"), 5+seplen)==0) pstr += (5 + seplen);
+  // if( strncmp(pstr, dirsep, seplen) == 0) pstr += seplen;
+  // char *pstrFin = strstr( pstr, dirsep);
+  // if( pstrFin==NULL) {
+  //   strcpy( pstr, dirsep);
+  //   pstrFin = pstr;
+  // }
+  // // copy that to the path
+  // StrRev(pstrFin);
+  // strncpy( strDirPath, pstrFin, sizeof(strDirPath)-1);
+  strncpy( strDirPath, strExePath, sizeof(strDirPath)-1);
   strDirPath[sizeof(strDirPath)-1] = 0;
   delete[] dirsep;
 }

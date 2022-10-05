@@ -238,16 +238,16 @@ void CEntityClass::Read_t( CTStream *istr) // throw char *
     dllName = "(statically linked)";
   #else
     // create name of dll
-    #ifndef NDEBUG
-    fnmDLL = fnmDLL.FileDir()+"Debug\\"+fnmDLL.FileName()+_strModExt+"D"+fnmDLL.FileExt();
-    #else
+//    #ifndef NDEBUG
+//    fnmDLL = fnmDLL.FileDir()+"Debug\\"+fnmDLL.FileName()+_strModExt+"D"+fnmDLL.FileExt();
+//    #else
     fnmDLL = fnmDLL.FileDir()+fnmDLL.FileName()+_strModExt+fnmDLL.FileExt();
-    #endif
+//    #endif
     fnmDLL = CDynamicLoader::ConvertLibNameToPlatform(fnmDLL);
     CTFileName fnmExpanded;
     ExpandFilePath(EFP_READ, fnmDLL, fnmExpanded);
     dllName = fnmExpanded;
-    ec_hiClassDLL = CDynamicLoader::GetInstance(fnmExpanded);
+    ec_hiClassDLL = CDynamicLoader::GetInstance(fnmDLL.FileName());
   #endif
 
   if (ec_hiClassDLL->GetError() != NULL)

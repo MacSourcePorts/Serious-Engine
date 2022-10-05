@@ -447,7 +447,8 @@ void InitializeGame(void)
     #endif
   
     const char *err;
-    CDynamicLoader *hGame = CDynamicLoader::GetInstance(fnmExpanded);
+    // CDynamicLoader *hGame = CDynamicLoader::GetInstance(fnmExpanded);
+    CDynamicLoader *hGame = CDynamicLoader::GetInstance(fnmDLL.FileName());
     if ((err = hGame->GetError()) != NULL) {
       ThrowF_t("%s", err);
     }

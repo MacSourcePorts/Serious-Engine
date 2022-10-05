@@ -93,3 +93,4 @@ Sources/SeriousSkaStudio/Scanner.cpp
 *.swp
 *.swo
 
+.DS_Store
