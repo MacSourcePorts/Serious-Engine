@@ -2397,7 +2397,7 @@ functions:
       aFOV = 90.0f;
     }
     // if sniper active
-    if (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_SNIPER)
+    if (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_SNIPER && ((CPlayerWeapons&)*m_penWeapons).m_bSniping)
     {
       aFOV = Lerp(((CPlayerWeapons&)*m_penWeapons).m_fSniperFOVlast,
                   ((CPlayerWeapons&)*m_penWeapons).m_fSniperFOV,
@@ -6774,7 +6774,7 @@ procedures:
       // if any found
       if (penNextPlayer!=NULL) {
         // transfer keys to that player
-        CPrintF(TRANSV("%s leaving, all keys transfered to %s\n"), 
+        CPrintF(TRANSV("%s leaving, all keys transferred to %s\n"), 
           (const char*)m_strName, (const char*)penNextPlayer->GetPlayerName());
         penNextPlayer->m_ulKeys |= m_ulKeys;
       }

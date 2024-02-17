@@ -366,6 +366,10 @@ void StartNextDemo(void)
     }
   }
 
+  if (_lhAutoDemos.Count()==1){
+    _bInAutoPlayLoop = FALSE;
+  }
+
   if (_gmRunningGameMode==GM_NONE) {
     _bInAutoPlayLoop = FALSE;
   }
@@ -1025,15 +1029,41 @@ int SubMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int 
         }
       }
 #else
-      STUBBED("SDL2 can handle these events");
+      if( msg.message==SDL_WINDOWEVENT)
+      {
+        switch( msg.wParam) {
+        case SDL_WINDOWEVENT_MINIMIZED:
+          if( _bWindowChanging) break;
+          _bWindowChanging  = TRUE;
+          _bReconsiderInput = TRUE;
+          // if allowed, not already paused and only in single player game mode
+          if( sam_bPauseOnMinimize && !_pNetwork->IsPaused() && _gmRunningGameMode==GM_SINGLE_PLAYER) {
+            // pause game
+            _pNetwork->TogglePause();
+          }
+          break;
+        }
+      }
 #endif
 
       // toggle full-screen on alt-enter
       if( msg.message==WM_SYSKEYDOWN && msg.wParam==VK_RETURN && !IsIconic(_hwndMain)) {
-        // !!! FIXME: SDL doesn't need to rebuild the GL context here to toggle fullscreen.
-        STUBBED("SDL doesn't need to rebuild the GL context here...");
+#ifdef PLATFORM_WIN32
         StartNewMode( (GfxAPIType)sam_iGfxAPI, sam_iDisplayAdapter, sam_iScreenSizeI, sam_iScreenSizeJ,
                       (enum DisplayDepth)sam_iDisplayDepth, !sam_bFullScreenActive);
+#else
+        int res = SDL_SetWindowFullscreen((SDL_Window *) _hwndMain, sam_bFullScreenActive ? 0 : SDL_WINDOW_FULLSCREEN);
+        if (res == 0) {
+            sam_bFullScreenActive = !sam_bFullScreenActive;
+            char achWindowTitle[256];
+            if (sam_bFullScreenActive)
+                SDL_snprintf( achWindowTitle, sizeof (achWindowTitle), TRANS("Serious Sam (FullScreen %dx%d)"), sam_iScreenSizeI, sam_iScreenSizeJ);
+            else
+                SDL_snprintf( achWindowTitle, sizeof (achWindowTitle), TRANS("Serious Sam (Window %dx%d)"), sam_iScreenSizeI, sam_iScreenSizeJ);
+            SDL_SetWindowTitle((SDL_Window *) _hwndMain, achWindowTitle);
+        } else
+            CPrintF("Can't toggle full-screen : %s\n", SDL_GetError());
+#endif
 
         if (_pInput != NULL) // rcg02042003 hack for SDL vs. Win32.
           _pInput->ClearRelativeMouseMotion();
@@ -1373,8 +1403,6 @@ void CheckTeaser(void)
     Sleep(500);
     _execl(fnmTeaser, "\""+fnmTeaser+"\"", NULL);
   }
-#else
-    STUBBED("load teaser");
 #endif
 }
 

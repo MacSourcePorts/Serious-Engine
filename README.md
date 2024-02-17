@@ -45,7 +45,7 @@ Once you've installed Visual Studio and (optionally) DirectX8 SDK, you can build
 Type this in your terminal:
 
 ```
-git clone https://github.com/rcgordon/Serious-Engine.git
+git clone https://github.com/ptitSeb/Serious-Engine
 cd Serious-Engine
 ```
 
@@ -53,7 +53,8 @@ cd Serious-Engine
 
 If you have access to a copy of the game (either by CD or through Steam),
 you can copy the *.gro files from the game directory to the repository.
-Note that for running SS:TFE, you don't need the ModEXT.txt file, it's only for SS:TSE.
+
+Note that **for running SS:TFE, you have to delete or rename the ModEXT.txt file**, it's only for SS:TSE.
 
 Alternatively, you can simply copy the whole content of the Windows install as base dir, add the `SE1_10.gro` from the repo in the root folder of the install, and then copy the binary built in `Bin` folder
 
@@ -62,7 +63,9 @@ Alternatively, you can simply copy the whole content of the Windows install as b
 Type this in your terminal:
 
 ```
-Sources/build-linux64.sh            # use build-linux32.sh for 32-bits
+cd Sources
+./build-linux64.sh            # use build-linux32.sh for 32-bits
+cd ..
 cp Sources/cmake-build/ssam Bin/
 cp Sources/cmake-build/Debug/* Bin/
 ```
@@ -72,7 +75,9 @@ cp Sources/cmake-build/Debug/* Bin/
 Type this in your terminal:
 
 ```
-Sources/build-linux64.sh -DTFE=TRUE	# use build-linux32.sh for 32-bits
+cd Sources
+./build-linux64.sh -DTFE=TRUE	# use build-linux32.sh for 32-bits
+cd ..
 cp Sources/cmake-build/ssam-tfe Bin/
 cp Sources/cmake-build/Debug/* Bin/
 ```
