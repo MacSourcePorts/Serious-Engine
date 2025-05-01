@@ -116,7 +116,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_C_CO
                 elseif(NOT (MACOSX AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64"))
                     add_compile_options(-mfpu=neon)
 		else()
-		add_compile_options(-mfpu=neon)
+		# add_compile_options(-mfpu=neon)
 		endif()
 		add_compile_options(-fsigned-char)
 	endif()

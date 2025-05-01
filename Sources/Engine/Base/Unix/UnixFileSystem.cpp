@@ -114,7 +114,7 @@ BOOL CFileSystem::IsDirectory(const char *fname)
 
 CUnixFileSystem::CUnixFileSystem(const char *argv0, const char *gamename)
 {
-    exePath = readSymLink("/proc/self/exe");
+    exePath = SDL_GetBasePath();
     userDir = SDL_GetPrefPath("Serious Engine", gamename);
 }
 

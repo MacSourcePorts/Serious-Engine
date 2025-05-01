@@ -1401,7 +1401,7 @@ void CheckModReload(void)
     MessageBoxA(0, "Error launching the Mod!\n", "Serious Sam", MB_OK|MB_ICONERROR);
 #else
     execv(argv0, (char* const*)argv);
-    fprintf(stderr, "Error launching Mod '%s'! execv(%s, ...)\n", strMod, argv0);
+    fprintf(stderr, "Error launching Mod '%s'! execv(%s, ...)\n", strMod.str_String, argv0);
 #endif
   }
 }
